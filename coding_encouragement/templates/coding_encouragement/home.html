@@ -11,19 +11,19 @@
             <blockquote class="blockquote">
                 <p class="mb-3 fs-4">"{{ quote.text }}"</p>
                 {% if quote.author %}
-                <footer class="blockquote-footer mt-3">
+                <footer class="blockquote-footer mt-3 text-white">
                     <cite title="Source Title">{{ quote.author }}</cite>
                 </footer>
                 {% endif %}
             </blockquote>
             <div class="mt-4">
-                <small class="text-light">
+                <small>
                     Submitted by {{ quote.submitted_by.username }} • 
                     {{ total_quotes }} inspiring quote{{ total_quotes|pluralize }} in our collection
                 </small>
             </div>
             <div class="mt-3">
-                <a href="{% url 'home' %}" class="btn btn-light btn-sm me-2">🔄 Get Another Quote</a>
+                <a href="{% url 'home' %}" class="btn btn-quote btn-sm me-2">🔄 Get Another Quote</a>
                 {% if user.is_authenticated %}
                 <a href="{% url 'report_quote' quote.id %}" class="btn btn-outline-light btn-sm">🚨 Report</a>
                 {% endif %}
@@ -35,11 +35,11 @@
             <p class="fs-5">{{ message }}</p>
             {% if user.is_authenticated %}
             <div class="mt-4">
-                <a href="{% url 'submit_quote' %}" class="btn btn-light btn-lg">Submit First Quote</a>
+                <a href="{% url 'submit_quote' %}" class="btn btn-first btn-lg">Submit First Quote</a>
             </div>
             {% else %}
             <div class="mt-4">
-                <a href="{% url 'login' %}" class="btn btn-light btn-lg me-2">Login</a>
+                <a href="{% url 'login' %}" class="btn btn-first btn-lg me-2">Login</a>
                 <a href="{% url 'signup' %}" class="btn btn-outline-light btn-lg">Sign Up</a>
             </div>
             {% endif %}
@@ -54,7 +54,7 @@
                         <div class="card-body">
                             <h5 class="card-title">💡 Share Inspiration</h5>
                             <p class="card-text">Have a motivational quote that helps you code? Share it with the community!</p>
-                            <a href="{% url 'submit_quote' %}" class="btn btn-primary">Submit Quote</a>
+                            <a href="{% url 'submit_quote' %}" class="btn sub-btn">Submit Quote</a>
                         </div>
                     </div>
                 </div>
@@ -63,7 +63,7 @@
                         <div class="card-body">
                             <h5 class="card-title">📝 My Contributions</h5>
                             <p class="card-text">View all the inspiring quotes you've shared with fellow developers.</p>
-                            <a href="{% url 'my_quotes' %}" class="btn btn-outline-primary">My Quotes</a>
+                            <a href="{% url 'my_quotes' %}" class="btn btn-outline-cyan">My Quotes</a>
                         </div>
                     </div>
                 </div>
@@ -80,7 +80,7 @@
             <div class="card-body text-center">
                 <h5 class="card-title">Join Our Community</h5>
                 <p class="card-text">Sign up to submit your own motivational quotes and inspire fellow developers on their coding journey!</p>
-                <a href="{% url 'signup' %}" class="btn btn-success">Create Account</a>
+                <a href="{% url 'signup' %}" class="btn sub-btn">Create Account</a>
             </div>
         </div>
     </div>
