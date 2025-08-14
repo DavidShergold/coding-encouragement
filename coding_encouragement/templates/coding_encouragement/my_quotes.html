@@ -14,7 +14,11 @@
 
         {% if quotes %}
         <div class="alert alert-info">
-            <strong>Total:</strong> You've contributed {{ total_count }} inspiring quote{{ total_count|pluralize }} to our community! 🎉
+            <strong>Summary:</strong> You've contributed {{ total_count }} quote{{ total_count|pluralize }} to our community! 
+            <span class="badge bg-success ms-2">{{ approved_count }} Approved</span>
+            {% if pending_count > 0 %}
+            <span class="badge bg-warning ms-1">{{ pending_count }} Pending Approval</span>
+            {% endif %}
         </div>
 
         <div class="row">
@@ -37,7 +41,14 @@
                                 Submitted {{ quote.created_at|timesince }} ago
                             </small>
                             <span class="badge bg-{% if quote.is_approved %}success{% else %}warning{% endif %}">
-                                {% if quote.is_approved %}✅ Approved{% else %}⏳ Pending{% endif %}
+                                {% if quote.is_approved %}
+                                    ✅ Approved
+                                    {% if quote.approved_at %}
+                                    <br><small>{{ quote.approved_at|timesince }} ago</small>
+                                    {% endif %}
+                                {% else %}
+                                    ⏳ Awaiting Approval
+                                {% endif %}
                             </span>
                         </div>
                     </div>

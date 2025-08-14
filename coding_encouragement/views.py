@@ -36,8 +36,9 @@ def submit_quote(request):
         if form.is_valid():
             quote = form.save(commit=False)
             quote.submitted_by = request.user
+            quote.is_approved = False  # New quotes require approval
             quote.save()
-            messages.success(request, 'Your motivational quote has been submitted successfully! 🎉')
+            messages.success(request, 'Your motivational quote has been submitted successfully! 🎉 It will appear once approved by our moderators.')
             return redirect('home')
     else:
         form = QuoteSubmissionForm()
@@ -47,9 +48,14 @@ def submit_quote(request):
 def my_quotes(request):
     if request.user.is_authenticated:
         user_quotes = Quote.objects.filter(submitted_by=request.user)
+        approved_count = user_quotes.filter(is_approved=True).count()
+        pending_count = user_quotes.filter(is_approved=False).count()
+        
         context = {
             'quotes': user_quotes,
-            'total_count': user_quotes.count()
+            'total_count': user_quotes.count(),
+            'approved_count': approved_count,
+            'pending_count': pending_count,
         }
         return render(request, 'coding_encouragement/my_quotes.html', context)
     else:
