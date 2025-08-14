@@ -1,0 +1,59 @@
+{% extends 'coding_encouragement/base.html' %}
+
+{% block title %}Report Quote - Coding Encouragement{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow">
+                <div class="card-header bg-warning text-dark">
+                    <h4 class="mb-0">🚨 Report Inappropriate Content</h4>
+                </div>
+                <div class="card-body">
+                    <div class="alert alert-info">
+                        <strong>Quote to Report:</strong><br>
+                        <blockquote class="blockquote mt-2">
+                            <p class="mb-0">"{{ quote.text }}"</p>
+                            {% if quote.author %}
+                                <footer class="blockquote-footer">{{ quote.author }}</footer>
+                            {% endif %}
+                        </blockquote>
+                    </div>
+
+                    <form method="post">
+                        {% csrf_token %}
+                        <div class="mb-3">
+                            <label for="reason" class="form-label">Reason for Report *</label>
+                            <select class="form-select" id="reason" name="reason" required>
+                                <option value="">Select a reason...</option>
+                                {% for value, label in report_reasons %}
+                                    <option value="{{ value }}">{{ label }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="description" class="form-label">Additional Details (Optional)</label>
+                            <textarea class="form-control" id="description" name="description" rows="3" 
+                                      placeholder="Please provide any additional context that might help our moderators..."></textarea>
+                        </div>
+
+                        <div class="alert alert-warning">
+                            <small>
+                                <strong>Note:</strong> False reports may result in account restrictions. 
+                                Please only report content that genuinely violates our community guidelines.
+                            </small>
+                        </div>
+
+                        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                            <a href="{% url 'home' %}" class="btn btn-secondary me-md-2">Cancel</a>
+                            <button type="submit" class="btn btn-warning">Submit Report</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -19,6 +19,9 @@
             {% if pending_count > 0 %}
             <span class="badge bg-warning ms-1">{{ pending_count }} Pending Approval</span>
             {% endif %}
+            {% if hidden_count > 0 %}
+            <span class="badge bg-danger ms-1">{{ hidden_count }} Hidden</span>
+            {% endif %}
         </div>
 
         <div class="row">
@@ -40,8 +43,10 @@
                             <small class="text-muted">
                                 Submitted {{ quote.created_at|timesince }} ago
                             </small>
-                            <span class="badge bg-{% if quote.is_approved %}success{% else %}warning{% endif %}">
-                                {% if quote.is_approved %}
+                            <span class="badge bg-{% if quote.is_hidden %}danger{% elif quote.is_approved %}success{% else %}warning{% endif %}">
+                                {% if quote.is_hidden %}
+                                    🚫 Hidden ({{ quote.report_count }} report{{ quote.report_count|pluralize }})
+                                {% elif quote.is_approved %}
                                     ✅ Approved
                                     {% if quote.approved_at %}
                                     <br><small>{{ quote.approved_at|timesince }} ago</small>
