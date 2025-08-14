@@ -7,7 +7,7 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card shadow">
-                <div class="card-header bg-warning text-dark">
+                <div class="card-header report">
                     <h4 class="mb-0">🚨 Report Inappropriate Content</h4>
                 </div>
                 <div class="card-body">
@@ -39,7 +39,7 @@
                                       placeholder="Please provide any additional context that might help our moderators..."></textarea>
                         </div>
 
-                        <div class="alert alert-warning">
+                        <div class="alert report">
                             <small>
                                 <strong>Note:</strong> False reports may result in account restrictions. 
                                 Please only report content that genuinely violates our community guidelines.
@@ -47,8 +47,8 @@
                         </div>
 
                         <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                            <a href="{% url 'home' %}" class="btn btn-secondary me-md-2">Cancel</a>
-                            <button type="submit" class="btn btn-warning">Submit Report</button>
+                            <a href="{% url 'home' %}" class="btn btn-outline-cyan me-md-2">Cancel</a>
+                            <button type="submit" class="btn report-btn">Submit Report</button>
                         </div>
                     </form>
                 </div>

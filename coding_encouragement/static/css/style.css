@@ -1,0 +1,127 @@
+.navbar-colour {
+    background-color: rgb(30, 181, 181) !important;
+}
+
+.navbar-colour,
+.navbar-colour .nav-link,
+.navbar-colour .navbar-brand {
+    color: white !important;
+}
+
+.navbar-colour .nav-link:hover,
+.navbar-colour .navbar-brand:hover {
+    color: rgb(205, 249, 228) !important;
+}
+
+.dropdown-menu {
+    background-color: rgb(30, 181, 181);
+    color: white;
+}
+
+.dropdown-item {
+    color: white !important;
+    background-color: transparent !important;
+}
+
+.dropdown-item:hover {
+    color: rgb(205, 249, 228) !important;
+}
+
+body {
+    background-color: rgb(185, 245, 225);
+}
+
+.quote-card {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border-radius: 15px;
+    padding: 2rem;
+    margin: 2rem 0;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+}
+.navbar-brand {
+    font-weight: bold;
+    font-size: 1.5rem;
+}
+
+.alert-success {
+    background-color: rgb(182, 221, 244);
+    color: rgb(0, 51, 102);
+}
+
+.alert-warning {
+    background-color: rgb(237, 182, 88);
+    color: rgb(102, 51, 0);
+}
+
+.alert-danger {
+    background-color: rgb(227, 81, 81);
+    color: rgb(102, 0, 0);
+}
+
+.alert-info {
+    background-color: rgb(108, 199, 178);
+    color: rgb(0, 51, 102);
+}
+
+.sub-btn {
+    background-color: teal;
+    color: aliceblue;
+}
+
+.btn-outline-cyan {
+    color: rgb(35, 199, 199); /* your custom color */
+    border: 2px solid rgb(35, 199, 199);
+    background-color: transparent;
+    transition: background 0.2s, color 0.2s;
+}
+.btn-outline-cyan:hover,
+.btn-outline-cyan:focus {
+    background-color: rgb(35, 199, 199);
+    color: #fff;
+}
+
+.btn-first {
+    background-color: white;
+    border: 2px solid rgb(35, 199, 199);
+    color: rgb(35, 199, 199);
+}
+
+.btn-first:hover,
+.btn-first:focus {
+    color: rgb(13, 135, 109);
+}
+
+.btn-outline-light:hover,
+.btn-outline-light:focus {
+    color: rgb(35, 199, 199);
+    background-color: white;
+}
+
+.btn-quote {
+    background-color: white;
+    color: rgb(10, 186, 186);
+}
+
+.btn-quote:hover,
+.btn-quote:focus {
+    background-color: rgb(10, 186, 186);
+    color: white;
+}
+
+.report {
+    background-color: teal;
+    color: white;
+}
+
+.report-btn {
+    background-color: teal;
+    color: rgb(255, 255, 255);
+}
+
+.report-btn:hover,
+.report-btn:focus {
+    background-color: rgb(255, 255, 255);
+    color: teal;
+    border: 2px solid teal;
+}
