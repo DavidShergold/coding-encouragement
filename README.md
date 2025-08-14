@@ -6,13 +6,49 @@ A Django web application designed to provide encouragement and motivation for co
 
 ### Prerequisites
 - Python 3.11+
+- PostgreSQL database server
+- pgAdmin4 (for database management)
 - Virtual environment (automatically created)
+
+### Database Setup
+
+1. **Create PostgreSQL Database:**
+   - Open pgAdmin4
+   - Create a new database named `coding_encouragement`
+   - Note your PostgreSQL username and password
+
+2. **Configure Database Connection:**
+   - Copy `.env.example` to `.env`
+   - Update the database credentials in `.env`:
+     ```
+     DB_NAME=coding_encouragement
+     DB_USER=your_postgres_username
+     DB_PASSWORD=your_postgres_password
+     DB_HOST=localhost
+     DB_PORT=5432
+     ```
 
 ### Installation
 
 1. The virtual environment is already set up in `.venv/`
-2. Django is already installed
-3. Database migrations have been applied
+2. Django and PostgreSQL dependencies are installed
+3. **Configure your database settings in `.env`**
+4. Run database migrations (see below)
+
+### Database Migration
+
+After setting up your PostgreSQL database and updating `.env`:
+
+```bash
+# Run migrations to create tables
+C:/Users/sherg/Desktop/vs-code-projects/coding-encouragement/.venv/Scripts/python.exe manage.py migrate
+
+# Load sample quotes (optional)
+C:/Users/sherg/Desktop/vs-code-projects/coding-encouragement/.venv/Scripts/python.exe manage.py load_sample_quotes
+
+# Create superuser for admin access
+C:/Users/sherg/Desktop/vs-code-projects/coding-encouragement/.venv/Scripts/python.exe manage.py createsuperuser
+```
 
 ### Running the Application
 
