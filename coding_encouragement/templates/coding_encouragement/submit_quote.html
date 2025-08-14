@@ -1,0 +1,70 @@
+{% extends 'coding_encouragement/base.html' %}
+
+{% block title %}Submit Quote - Coding Encouragement{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <h3 class="mb-0">💡 Share Your Inspiration</h3>
+            </div>
+            <div class="card-body">
+                <p class="text-muted">Help motivate fellow developers by sharing a quote that inspires you to code!</p>
+                
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <label for="{{ form.text.id_for_label }}" class="form-label">{{ form.text.label }}</label>
+                        {{ form.text }}
+                        {% if form.text.help_text %}
+                        <div class="form-text">{{ form.text.help_text }}</div>
+                        {% endif %}
+                        {% if form.text.errors %}
+                        <div class="text-danger">
+                            {% for error in form.text.errors %}
+                            <small>{{ error }}</small>
+                            {% endfor %}
+                        </div>
+                        {% endif %}
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="{{ form.author.id_for_label }}" class="form-label">{{ form.author.label }}</label>
+                        {{ form.author }}
+                        {% if form.author.help_text %}
+                        <div class="form-text">{{ form.author.help_text }}</div>
+                        {% endif %}
+                        {% if form.author.errors %}
+                        <div class="text-danger">
+                            {% for error in form.author.errors %}
+                            <small>{{ error }}</small>
+                            {% endfor %}
+                        </div>
+                        {% endif %}
+                    </div>
+                    
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-primary btn-lg">
+                            🚀 Submit Quote
+                        </button>
+                        <a href="{% url 'home' %}" class="btn btn-outline-secondary">Cancel</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+        
+        <div class="mt-4">
+            <div class="alert alert-info">
+                <h6>💡 Tips for great quotes:</h6>
+                <ul class="mb-0">
+                    <li>Keep it positive and motivational</li>
+                    <li>Make it relevant to coding or learning</li>
+                    <li>Original quotes are welcome too!</li>
+                    <li>Check spelling and grammar</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

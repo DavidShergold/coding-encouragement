@@ -1,0 +1,63 @@
+{% extends 'coding_encouragement/base.html' %}
+
+{% block title %}My Quotes - Coding Encouragement{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2>📝 My Submitted Quotes</h2>
+            <a href="{% url 'submit_quote' %}" class="btn btn-primary">
+                + Submit New Quote
+            </a>
+        </div>
+
+        {% if quotes %}
+        <div class="alert alert-info">
+            <strong>Total:</strong> You've contributed {{ total_count }} inspiring quote{{ total_count|pluralize }} to our community! 🎉
+        </div>
+
+        <div class="row">
+            {% for quote in quotes %}
+            <div class="col-md-6 mb-4">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <blockquote class="blockquote">
+                            <p class="mb-3">"{{ quote.text }}"</p>
+                            {% if quote.author %}
+                            <footer class="blockquote-footer">
+                                <cite title="Source Title">{{ quote.author }}</cite>
+                            </footer>
+                            {% endif %}
+                        </blockquote>
+                    </div>
+                    <div class="card-footer">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <small class="text-muted">
+                                Submitted {{ quote.created_at|timesince }} ago
+                            </small>
+                            <span class="badge bg-{% if quote.is_approved %}success{% else %}warning{% endif %}">
+                                {% if quote.is_approved %}✅ Approved{% else %}⏳ Pending{% endif %}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="text-center">
+            <div class="card">
+                <div class="card-body py-5">
+                    <h4>No quotes submitted yet</h4>
+                    <p class="text-muted">You haven't submitted any motivational quotes yet. Be the first to inspire the community!</p>
+                    <a href="{% url 'submit_quote' %}" class="btn btn-primary btn-lg">
+                        Submit Your First Quote
+                    </a>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

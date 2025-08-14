@@ -1,0 +1,86 @@
+{% extends 'coding_encouragement/base.html' %}
+
+{% block title %}Home - Coding Encouragement{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        {% if quote %}
+        <div class="quote-card text-center">
+            <h2 class="mb-4">✨ Your Daily Inspiration ✨</h2>
+            <blockquote class="blockquote">
+                <p class="mb-3 fs-4">"{{ quote.text }}"</p>
+                {% if quote.author %}
+                <footer class="blockquote-footer mt-3">
+                    <cite title="Source Title">{{ quote.author }}</cite>
+                </footer>
+                {% endif %}
+            </blockquote>
+            <div class="mt-4">
+                <small class="text-light">
+                    Submitted by {{ quote.submitted_by.username }} • 
+                    {{ total_quotes }} inspiring quote{{ total_quotes|pluralize }} in our collection
+                </small>
+            </div>
+            <div class="mt-3">
+                <a href="{% url 'home' %}" class="btn btn-light btn-sm">🔄 Get Another Quote</a>
+            </div>
+        </div>
+        {% else %}
+        <div class="quote-card text-center">
+            <h2 class="mb-4">🚀 Welcome to Coding Encouragement!</h2>
+            <p class="fs-5">{{ message }}</p>
+            {% if user.is_authenticated %}
+            <div class="mt-4">
+                <a href="{% url 'submit_quote' %}" class="btn btn-light btn-lg">Submit First Quote</a>
+            </div>
+            {% else %}
+            <div class="mt-4">
+                <a href="{% url 'login' %}" class="btn btn-light btn-lg me-2">Login</a>
+                <a href="{% url 'signup' %}" class="btn btn-outline-light btn-lg">Sign Up</a>
+            </div>
+            {% endif %}
+        </div>
+        {% endif %}
+
+        {% if user.is_authenticated %}
+        <div class="text-center mt-4">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">💡 Share Inspiration</h5>
+                            <p class="card-text">Have a motivational quote that helps you code? Share it with the community!</p>
+                            <a href="{% url 'submit_quote' %}" class="btn btn-primary">Submit Quote</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">📝 My Contributions</h5>
+                            <p class="card-text">View all the inspiring quotes you've shared with fellow developers.</p>
+                            <a href="{% url 'my_quotes' %}" class="btn btn-outline-primary">My Quotes</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+{% if not user.is_authenticated %}
+<div class="row justify-content-center mt-5">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-body text-center">
+                <h5 class="card-title">Join Our Community</h5>
+                <p class="card-text">Sign up to submit your own motivational quotes and inspire fellow developers on their coding journey!</p>
+                <a href="{% url 'signup' %}" class="btn btn-success">Create Account</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+{% endblock %}
