@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse, JsonResponse
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth import login
+from django.contrib.auth import login, logout
 from django.contrib import messages
 from django.db.models import Q
 from .models import Quote, Report
@@ -110,3 +110,12 @@ def signup(request):
         form = UserCreationForm()
     
     return render(request, 'registration/signup.html', {'form': form})
+
+def user_logout(request):
+    """Handle user logout with success message"""
+    if request.method == 'POST':
+        username = request.user.username if request.user.is_authenticated else "User"
+        logout(request)
+        messages.success(request, f"👋 Goodbye {username}! You've been successfully logged out.")
+        return redirect('home')
+    return redirect('home')
