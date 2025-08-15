@@ -33,10 +33,10 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav me-auto">
-                    <!--<li class="nav-item">
+                <!--<ul class="navbar-nav me-auto">
+                    <li class="nav-item">
                         <a class="nav-link" href="{% url 'home' %}">Home</a>
-                    </li>-->
+                    </li>
                     {% if user.is_authenticated %}
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'submit_quote' %}">Submit Quote</a>
@@ -45,8 +45,8 @@
                         <a class="nav-link" href="{% url 'my_quotes' %}">My Quotes</a>
                     </li>
                     {% endif %}
-                </ul>
-                <ul class="navbar-nav">
+                </ul> -->
+                <ul class="navbar-nav ms-auto">
                     {% if user.is_authenticated %}
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -100,12 +100,12 @@
                     <small class="text-muted">You'll need to log in again to submit or manage your quotes.</small>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                    <button type="button" class="btn btn-outline-cyan" data-bs-dismiss="modal">
                         ❌ Cancel
                     </button>
                     <form method="post" action="{% url 'logout' %}" style="display: inline;">
                         {% csrf_token %}
-                        <button type="submit" class="btn btn-danger">
+                        <button type="submit" class="btn sub-btn">
                             🚪 Yes, Logout
                         </button>
                     </form>

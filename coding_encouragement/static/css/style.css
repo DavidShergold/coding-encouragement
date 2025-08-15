@@ -134,3 +134,10 @@ body {
     max-height: 150px;
     max-width: 300px;
 }
+
+@media (max-width: 991.98px) {
+    .logo {
+        max-height: 50px;
+        max-width: 150px;
+    }
+}
