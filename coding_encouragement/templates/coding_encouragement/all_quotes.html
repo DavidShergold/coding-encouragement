@@ -1,0 +1,212 @@
+{% extends 'coding_encouragement/base.html' %}
+
+{% block title %}All Quotes - Coding Encouragement{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-10">
+        <h2 class="text-center mb-4">📖 All Quotes</h2>
+        
+        <!-- Sorting Controls -->
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <div>
+                <p class="mb-0 text-muted">
+                    Showing {{ page_obj.start_index }}-{{ page_obj.end_index }} of {{ page_obj.paginator.count }} quotes
+                </p>
+            </div>
+            <div>
+                <form method="get" class="d-flex">
+                    <label for="sort" class="form-label me-2 align-self-center">Sort by:</label>
+                    <select name="sort" id="sort" class="form-select" onchange="this.form.submit()" style="width: auto;">
+                        {% for value, label in sort_options %}
+                        <option value="{{ value }}" {% if current_sort == value %}selected{% endif %}>
+                            {{ label }}
+                        </option>
+                        {% endfor %}
+                    </select>
+                </form>
+            </div>
+        </div>
+
+        <!-- Quotes List -->
+        {% for quote in page_obj %}
+        <div class="card mb-4">
+            <div class="card-body">
+                <!-- Quote Content -->
+                <blockquote class="blockquote mb-3">
+                    <p class="mb-0">"{{ quote.text }}"</p>
+                    {% if quote.author %}
+                    <footer class="blockquote-footer mt-2">
+                        <cite title="Source Title">{{ quote.author }}</cite>
+                    </footer>
+                    {% endif %}
+                </blockquote>
+
+                <!-- Voting and Actions -->
+                <div class="d-flex justify-content-between align-items-center">
+                    <div class="d-flex align-items-center">
+                        <!-- Vote Buttons -->
+                        {% if user.is_authenticated %}
+                        <div class="voting-buttons me-3">
+                            <button class="btn btn-sm vote-btn upvote-btn {% if quote.user_vote == 'up' %}active{% endif %}" 
+                                    data-quote-id="{{ quote.id }}" data-vote-type="up">
+                                👍
+                            </button>
+                            <span class="cumulative-rank mx-2 fw-bold">{{ quote.get_cumulative_rank|add:0|stringformat:"+d" }}</span>
+                            <button class="btn btn-sm vote-btn downvote-btn {% if quote.user_vote == 'down' %}active{% endif %}" 
+                                    data-quote-id="{{ quote.id }}" data-vote-type="down">
+                                👎
+                            </button>
+                        </div>
+                        {% else %}
+                        <div class="voting-buttons me-3">
+                            <a href="{% url 'login' %}" class="btn btn-sm btn-outline-secondary">👍</a>
+                            <span class="cumulative-rank mx-2 fw-bold">{{ quote.get_cumulative_rank|add:0|stringformat:"+d" }}</span>
+                            <a href="{% url 'login' %}" class="btn btn-sm btn-outline-secondary">👎</a>
+                        </div>
+                        {% endif %}
+                        
+                        <small class="text-muted">
+                            Submitted by {{ quote.submitted_by.username }} • {{ quote.created_at|date:"M d, Y" }}
+                        </small>
+                    </div>
+                    
+                    <div>
+                        {% if user.is_authenticated %}
+                        <a href="{% url 'report_quote' quote.id %}" class="btn btn-outline-danger btn-sm">🚨 Report</a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <div class="text-center">
+            <p class="text-muted">No quotes found. Be the first to submit one!</p>
+            {% if user.is_authenticated %}
+            <a href="{% url 'submit_quote' %}" class="btn btn-primary">Submit First Quote</a>
+            {% endif %}
+        </div>
+        {% endfor %}
+
+        <!-- Pagination -->
+        {% if page_obj.has_other_pages %}
+        <nav aria-label="Quotes pagination" class="mt-4">
+            <ul class="pagination justify-content-center">
+                {% if page_obj.has_previous %}
+                <li class="page-item">
+                    <a class="page-link" href="?page=1{% if current_sort != 'newest' %}&sort={{ current_sort }}{% endif %}">First</a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ page_obj.previous_page_number }}{% if current_sort != 'newest' %}&sort={{ current_sort }}{% endif %}">Previous</a>
+                </li>
+                {% endif %}
+
+                <!-- Page numbers -->
+                {% for page_num in page_obj.paginator.page_range %}
+                {% if page_num == page_obj.number %}
+                <li class="page-item active">
+                    <span class="page-link">{{ page_num }}</span>
+                </li>
+                {% elif page_num <= page_obj.number|add:2 and page_num >= page_obj.number|add:-2 %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ page_num }}{% if current_sort != 'newest' %}&sort={{ current_sort }}{% endif %}">{{ page_num }}</a>
+                </li>
+                {% endif %}
+                {% endfor %}
+
+                {% if page_obj.has_next %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ page_obj.next_page_number }}{% if current_sort != 'newest' %}&sort={{ current_sort }}{% endif %}">Next</a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}{% if current_sort != 'newest' %}&sort={{ current_sort }}{% endif %}">Last</a>
+                </li>
+                {% endif %}
+            </ul>
+        </nav>
+        {% endif %}
+    </div>
+</div>
+
+<style>
+.vote-btn {
+    border: 1px solid #ddd;
+    background: white;
+    transition: all 0.3s ease;
+}
+
+.vote-btn:hover {
+    transform: scale(1.1);
+}
+
+.upvote-btn.active {
+    background-color: #28a745 !important;
+    color: white !important;
+    border-color: #28a745 !important;
+}
+
+.downvote-btn.active {
+    background-color: #dc3545 !important;
+    color: white !important;
+    border-color: #dc3545 !important;
+}
+
+.cumulative-rank {
+    min-width: 40px;
+    text-align: center;
+}
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Handle voting
+    document.querySelectorAll('.vote-btn').forEach(button => {
+        button.addEventListener('click', function() {
+            const quoteId = this.dataset.quoteId;
+            const voteType = this.dataset.voteType;
+            
+            fetch(`/vote/${quoteId}/`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                    'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value
+                },
+                body: `vote_type=${voteType}`
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.error) {
+                    alert(data.error);
+                    return;
+                }
+                
+                // Update the cumulative rank display
+                const rankSpan = this.parentElement.querySelector('.cumulative-rank');
+                const rank = data.cumulative_rank;
+                rankSpan.textContent = rank >= 0 ? `+${rank}` : rank.toString();
+                
+                // Update button states
+                const upBtn = this.parentElement.querySelector('.upvote-btn');
+                const downBtn = this.parentElement.querySelector('.downvote-btn');
+                
+                upBtn.classList.remove('active');
+                downBtn.classList.remove('active');
+                
+                if (data.current_vote === 'up') {
+                    upBtn.classList.add('active');
+                } else if (data.current_vote === 'down') {
+                    downBtn.classList.add('active');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('An error occurred while voting. Please try again.');
+            });
+        });
+    });
+});
+</script>
+
+<!-- CSRF Token for AJAX requests -->
+{% csrf_token %}
+{% endblock %}
