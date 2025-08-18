@@ -42,7 +42,7 @@ Additionally, the use of explicit ARIA role attributes (e.g. role="button", role
 
 <span style="color:#39FF14">No errors found</span>
 
-<img src="https://raw.githubusercontent.com/Ozzymara/docpe/refs/heads/main/assets/cecss.webp" alt="wireframe" style="width:100%;">
+<img src="https://raw.githubusercontent.com/Ozzymara/docpe/refs/heads/main/assets/cecss.webp" alt="wireframe" style="width:50%;">
 
 This document validates as CSS level 3 + SVG.
 
@@ -55,7 +55,7 @@ To check code quality and adherence to Python style guidelines, all Python files
 
 The result "<span style="color:#39FF14">All clear, no errors found</span>" across all files means that there are no stylistic or syntax errors and the code complies with Python linting standards.
 
-<img src="https://raw.githubusercontent.com/Ozzymara/docpe/refs/heads/main/assets/cepython.webp" alt="wireframe" style="width:100%;">
+<img src="https://raw.githubusercontent.com/Ozzymara/docpe/refs/heads/main/assets/cepython.webp" alt="wireframe" style="width:50%;">
 
 The table below explains the Python linter error/warning codes found, why they are not urgent, and recommended fixes for the future:
 
