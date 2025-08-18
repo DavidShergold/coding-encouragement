@@ -2,6 +2,22 @@
 
 A Django web application designed to provide encouragement and motivation for coding learners and developers. 🚀
 
+## 📱 Wireframes
+
+Wireframes play a crucial role in shaping a website’s architecture, ensuring a cohesive and well-optimised experience for users. The wireframes for this project have been created using [Balsamiq](https://balsamiq.com/) and Chrome extension [Wireframe-Prage](https://chromewebstore.google.com/detail/wireframe-page/bhaaofjcbafngjjneehlganleamobkke) to define the core feature layout, ensuring a user-friendly experience that prioritises clarity and ease of navigation. These mid-fidelity wireframes serve as a foundational guide for structuring the site's design and responsiveness across different screen sizes.
+
+Each template is developed using user-centred principles: prioritising simplicity, searchability, and visually-guided interactions, ensuring an intuitive experience that fulfils business and customer needs.
+
+| Template Name       | Description / Purpose          | Expand Feature to View Image                               |
+|---------------------|-------------------------------|------------------------------------------------------------|
+| main.html           | Display inspirational quotes related to coding | <details><summary>view wireframe</summary><img src="https://raw.githubusercontent.com/Ozzymara/docpe/refs/heads/main/assets/cemain.webp" alt="wireframe" style="width:100%;"></details> |
+| signup.html          | User registration page          | <details><summary>view wireframe</summary><img src="https://raw.githubusercontent.com/Ozzymara/docpe/refs/heads/main/assets/cesignup.webp" alt="wireframe" style="width:100%;"></details> |
+| login.html           | User authentication page        | <details><summary>view wireframe</summary><img src="https://raw.githubusercontent.com/Ozzymara/docpe/refs/heads/main/assets/celogin.webp" alt="wireframe" style="width:100%;"></details> |
+| myquotes.html         | Display's users uploaded quotes | <details><summary>view wireframe</summary><img src="https://raw.githubusercontent.com/Ozzymara/docpe/refs/heads/main/assets/cemyquotes.webp" alt="wireframe" style="width:100%;"></details> |
+| submit.html            | Allows user to submit quotes | <details><summary>view wireframe</summary><img src="https://raw.githubusercontent.com/Ozzymara/docpe/refs/heads/main/assets/cesubmit.webp" alt="wireframe" style="width:100%;"></details> |
+| report.html       | Allows users to report quotes  | <details><summary>view wireframe</summary><img src="https://raw.githubusercontent.com/Ozzymara/docpe/refs/heads/main/assets/cereport.webp" alt="wireframe" style="width:100%;"></details> |
+| myvotes.html         | Allows users to rate a quote   | <details><summary>view wireframe</summary><img src="https://raw.githubusercontent.com/Ozzymara/docpe/refs/heads/main/assets/cemyvotes.webp" alt="wireframe" style="width:100%;"></details> |
+
 ## Getting Started
 
 ### Prerequisites
