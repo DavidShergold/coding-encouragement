@@ -85,8 +85,18 @@ coding_encouragement/  # Coding Encouragement Django app
 └── views.py        # View functions
 
 manage.py           # Django management script
-```
 
+
+```
+### User Stories
+
+- As a new coder, I want to see a new inspirational quote so that I can feel encouraged while learning to code
+- As a new coder, I want to the quotes to be snappy and uplifting so that they're easy to remember
+- As a contributor, I want to submit my own inspirational quotesso that I can share encouragement with others who are learning to code
+- As a contributor, I want to see my quote appear randomly in the rotation so thatI feel part of the community
+- As a visitor, I want to load the site quickly and on any device so that I can get inspiration wherever I am
+
+  
 ### Next Steps
 
 - Add models to `coding_encouragement/models.py` for your data structure
