@@ -4,7 +4,7 @@ A Django web application designed to provide encouragement and motivation for co
 
 ## 📱 Wireframes
 
-Wireframes play a crucial role in shaping a website’s architecture, ensuring a cohesive and well-optimised experience for users. The wireframes for this project have been created using [Balsamiq](https://balsamiq.com/) and Chrome extension [Wireframe-Prage](https://chromewebstore.google.com/detail/wireframe-page/bhaaofjcbafngjjneehlganleamobkke) to define the core feature layout, ensuring a user-friendly experience that prioritises clarity and ease of navigation. These mid-fidelity wireframes serve as a foundational guide for structuring the site's design and responsiveness across different screen sizes.
+Wireframes play a crucial role in shaping a website’s architecture, ensuring a cohesive and well-optimised experience for users. The wireframes for this project have been created using [Balsamiq](https://balsamiq.com/) and the Chrome extension [Wireframe-Prage](https://chromewebstore.google.com/detail/wireframe-page/bhaaofjcbafngjjneehlganleamobkke) to define the core feature layout, ensuring a user-friendly experience that prioritises clarity and ease of navigation. These mid-fidelity wireframes serve as a foundational guide for structuring the site's design and responsiveness across different screen sizes.
 
 Each template is developed using user-centred principles: prioritising simplicity, searchability, and visually-guided interactions, ensuring an intuitive experience that fulfils business and customer needs.
 
@@ -17,6 +17,58 @@ Each template is developed using user-centred principles: prioritising simplicit
 | submit.html            | Allows user to submit quotes | <details><summary>view wireframe</summary><img src="https://raw.githubusercontent.com/Ozzymara/docpe/refs/heads/main/assets/cesubmit.webp" alt="wireframe" style="width:100%;"></details> |
 | report.html       | Allows users to report quotes  | <details><summary>view wireframe</summary><img src="https://raw.githubusercontent.com/Ozzymara/docpe/refs/heads/main/assets/cereport.webp" alt="wireframe" style="width:100%;"></details> |
 | myvotes.html         | Allows users to rate a quote   | <details><summary>view wireframe</summary><img src="https://raw.githubusercontent.com/Ozzymara/docpe/refs/heads/main/assets/cemyvotes.webp" alt="wireframe" style="width:100%;"></details> |
+
+## 🧪 Testing and Validation
+This section summarises the results of user interface (UI) element functionality testing for the website.
+
+## [✅ HTML Validation](https://validator.w3.org/#validate_by_input) and [Lighthouse](https://developers.google.com/web/tools/lighthouse/)
+
+The website currently has <span style="color:#39FF14">no errors or warnings</span>.
+
+<img src="https://raw.githubusercontent.com/Ozzymara/docpe/refs/heads/main/assets/celighthouse.webp" alt="wireframe" style="width:100%;">
+
+<img src="https://raw.githubusercontent.com/Ozzymara/docpe/refs/heads/main/assets/cevalidation.png" alt="wireframe" style="width:100%;">
+
+When MS Copilot generated code, occasional stray elements like <span style="font-family:monospace;">&lt;/span&gt;</span> and other closing tags appeared due to the way it predicted and completed code snippets. These errors were flagged during HTML validation and were corrected in [VS Code](https://code.visualstudio.com/download).
+
+Additionally, the use of explicit ARIA role attributes (e.g. role="button", role="main") on HTML elements was initially guided by recommendations from the WAVE accessibility tool. However, these roles are inherently implied by the semantic HTML5 elements themselves. The Nu HTML Validator correctly flags them as unnecessary. To ensure leaner, more semantic code and to align with modern best practices, we chose to deselect checking redundant role attributes.
+
+## ✅ Chrome DevTools Lighthouse
+• A [Lighthouse](https://developers.google.com/web/tools/lighthouse/) audit was conducted using the tool on Chrome DevTools for each web page.  
+• Categories *Accessibility*, *Best Practices*, and *SEO* all have a score of <span style="color:#39FF14">100</span>.
+• The *Performance* scores for the various pages ranged between <span style="color:#39FF14">91-100</span>.
+
+## ✅ CSS Validation
+
+<span style="color:#39FF14">No errors found</span>
+
+<img src="https://raw.githubusercontent.com/Ozzymara/docpe/refs/heads/main/assets/cecss.webp" alt="wireframe" style="width:100%;">
+
+This document validates as CSS level 3 + SVG.
+
+## ✅ JS Validation
+
+Because this project uses a modern script, JS Hint was configured to allow 'New JavaScript features (ES6)'. <span style="color:#39FF14">No errors</span> are found in the current version of the site.
+
+## ✅ CI Python Linter
+To check code quality and adherence to Python style guidelines, all Python files were checked using the [Code Institute’s Python Linter](https://pep8ci.herokuapp.com/), which uses [PEP8](https://peps.python.org/pep-0008/) (8th Python Enhancement Proposal (PEP) document).
+
+The result "<span style="color:#39FF14">All clear, no errors found</span>" across all files means that there are no stylistic or syntax errors and the code complies with Python linting standards.
+
+<img src="https://raw.githubusercontent.com/Ozzymara/docpe/refs/heads/main/assets/cepython.webp" alt="wireframe" style="width:100%;">
+
+The table below explains the Python linter error/warning codes found, why they are not urgent, and recommended fixes for the future:
+
+| Code | Meaning | Why Not Urgent | Recommended Fix |
+| --- | --- | --- | --- |
+| E302 | Expected 2 blank lines before function/class | Style issue to improve readability | Add 2 blank lines before function/class |
+| E304 | Blank lines found after function decorator | Minor style issue, does not affect code | Remove unnecessary blank lines after decorators |
+| E501 | Line too long (exceeds max length, e.g. 79) | Code runs fine, but hard to read | Break long lines into shorter ones |
+| E722 | Do not use bare except | Catching all exceptions hides errors | Specify exception type in except clause |
+| W293 | Blank line contains whitespace | Whitespace does not cause errors | Remove trailing whitespace |
+| W291 | Trailing whitespace | Harmless but messy code | Remove trailing whitespace |
+
+Summary: These are mainly style and best practice warnings intended to improve code readability and maintainability. They do not break the code but addressing them makes the code cleaner and easier to understand. Setting up automated formatting tools can help fix and prevent these in the future.
 
 ## Getting Started
 
