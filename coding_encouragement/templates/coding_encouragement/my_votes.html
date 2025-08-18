@@ -1,0 +1,290 @@
+{% extends 'coding_encouragement/base.html' %}
+{% load custom_filters %}
+
+{% block title %}My Votes - Coding Encouragement{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-10">
+        <h2 class="text-center mb-4">🗳️ My Votes</h2>
+        
+        <!-- Filter and Sorting Controls -->
+        <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap">
+            <div class="mb-2">
+                <p class="mb-0 text-muted">
+                    Showing {{ page_obj.start_index }}-{{ page_obj.end_index }} of {{ page_obj.paginator.count }} voted quotes
+                </p>
+            </div>
+            <div class="d-flex gap-3 mb-2">
+                <!-- Filter Controls -->
+                <form method="get" class="d-flex">
+                    <input type="hidden" name="sort" value="{{ current_sort }}">
+                    <label for="filter" class="form-label me-2 align-self-center">Filter:</label>
+                    <select name="filter" id="filter" class="form-select" onchange="this.form.submit()" style="width: auto;">
+                        {% for value, label in filter_options %}
+                        <option value="{{ value }}" {% if current_filter == value %}selected{% endif %}>
+                            {{ label }}
+                        </option>
+                        {% endfor %}
+                    </select>
+                </form>
+                
+                <!-- Sort Controls -->
+                <form method="get" class="d-flex">
+                    <input type="hidden" name="filter" value="{{ current_filter }}">
+                    <label for="sort" class="form-label me-2 align-self-center">Sort by:</label>
+                    <select name="sort" id="sort" class="form-select" onchange="this.form.submit()" style="width: auto;">
+                        {% for value, label in sort_options %}
+                        <option value="{{ value }}" {% if current_sort == value %}selected{% endif %}>
+                            {{ label }}
+                        </option>
+                        {% endfor %}
+                    </select>
+                </form>
+            </div>
+        </div>
+
+        <!-- Quotes List -->
+        {% for vote in page_obj %}
+        {% with quote=vote.quote %}
+        <div class="card mb-4" data-quote-id="{{ quote.id }}">
+            <div class="card-body">
+                <!-- Quote Content -->
+                <blockquote class="blockquote mb-3">
+                    <p class="mb-0">"{{ quote.text }}"</p>
+                    {% if quote.author %}
+                    <footer class="blockquote-footer mt-2">
+                        <cite title="Source Title">{{ quote.author }}</cite>
+                    </footer>
+                    {% endif %}
+                </blockquote>
+
+                <!-- Voting and Actions -->
+                <div class="d-flex justify-content-between align-items-center">
+                    <div class="d-flex align-items-center">
+                        <!-- Vote Buttons -->
+                        <div class="voting-buttons me-3">
+                            <button class="btn btn-sm vote-btn upvote-btn {% if quote.user_vote == 'up' %}active{% endif %}" 
+                                    data-quote-id="{{ quote.id }}" data-vote-type="up">
+                                👍
+                            </button>
+                            <span class="cumulative-rank mx-2 fw-bold">{{ quote.get_cumulative_rank|add:0|stringformat:"+d" }}</span>
+                            <button class="btn btn-sm vote-btn downvote-btn {% if quote.user_vote == 'down' %}active{% endif %}" 
+                                    data-quote-id="{{ quote.id }}" data-vote-type="down">
+                                👎
+                            </button>
+                        </div>
+                        
+                        <div>
+                            <small class="text-muted">
+                                Submitted by {{ quote.submitted_by.username }} • {{ quote.created_at|date:"M d, Y" }}
+                            </small>
+                            <br>
+                            <small class="text-primary fw-bold">
+                                You voted {{ quote.vote_date|smart_date }}
+                                {% if quote.user_vote == 'up' %}
+                                    <span class="text-success">👍</span>
+                                {% else %}
+                                    <span class="text-danger">👎</span>
+                                {% endif %}
+                            </small>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <a href="{% url 'report_quote' quote.id %}" class="btn btn-outline-danger btn-sm">🚨 Report</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endwith %}
+        {% empty %}
+        <div class="text-center">
+            {% if current_filter == 'up' %}
+                <p class="text-muted">You haven't upvoted any quotes yet.</p>
+                <p>Start exploring quotes and show your appreciation with upvotes!</p>
+            {% elif current_filter == 'down' %}
+                <p class="text-muted">You haven't downvoted any quotes yet.</p>
+                <p>Browse quotes and use downvotes to help improve content quality.</p>
+            {% else %}
+                <p class="text-muted">You haven't voted on any quotes yet.</p>
+                <p>Start exploring and voting on quotes to build your voting history!</p>
+            {% endif %}
+            <a href="{% url 'all_quotes' %}" class="btn btn-primary">Browse All Quotes</a>
+        </div>
+        {% endfor %}
+
+        <!-- Pagination -->
+        {% if page_obj.has_other_pages %}
+        <nav aria-label="My votes pagination" class="mt-4">
+            <ul class="pagination justify-content-center">
+                {% if page_obj.has_previous %}
+                <li class="page-item">
+                    <a class="page-link" href="?page=1{% if current_filter != 'all' %}&filter={{ current_filter }}{% endif %}{% if current_sort != 'recent_vote' %}&sort={{ current_sort }}{% endif %}">First</a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ page_obj.previous_page_number }}{% if current_filter != 'all' %}&filter={{ current_filter }}{% endif %}{% if current_sort != 'recent_vote' %}&sort={{ current_sort }}{% endif %}">Previous</a>
+                </li>
+                {% endif %}
+
+                <!-- Page numbers -->
+                {% for page_num in page_obj.paginator.page_range %}
+                {% if page_num == page_obj.number %}
+                <li class="page-item active">
+                    <span class="page-link">{{ page_num }}</span>
+                </li>
+                {% elif page_num <= page_obj.number|add:2 and page_num >= page_obj.number|add:-2 %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ page_num }}{% if current_filter != 'all' %}&filter={{ current_filter }}{% endif %}{% if current_sort != 'recent_vote' %}&sort={{ current_sort }}{% endif %}">{{ page_num }}</a>
+                </li>
+                {% endif %}
+                {% endfor %}
+
+                {% if page_obj.has_next %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ page_obj.next_page_number }}{% if current_filter != 'all' %}&filter={{ current_filter }}{% endif %}{% if current_sort != 'recent_vote' %}&sort={{ current_sort }}{% endif %}">Next</a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}{% if current_filter != 'all' %}&filter={{ current_filter }}{% endif %}{% if current_sort != 'recent_vote' %}&sort={{ current_sort }}{% endif %}">Last</a>
+                </li>
+                {% endif %}
+            </ul>
+        </nav>
+        {% endif %}
+    </div>
+</div>
+
+<style>
+.vote-btn {
+    border: 1px solid #ddd;
+    background: white;
+    transition: all 0.3s ease;
+}
+
+.vote-btn:hover {
+    transform: scale(1.1);
+}
+
+.upvote-btn.active {
+    background-color: #28a745 !important;
+    color: white !important;
+    border-color: #28a745 !important;
+}
+
+.downvote-btn.active {
+    background-color: #dc3545 !important;
+    color: white !important;
+    border-color: #dc3545 !important;
+}
+
+.cumulative-rank {
+    min-width: 40px;
+    text-align: center;
+}
+
+.card[data-quote-id] {
+    transition: opacity 0.3s ease;
+}
+
+.card[data-quote-id].removing {
+    opacity: 0.5;
+}
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Handle voting with smart filtering behavior
+    document.querySelectorAll('.vote-btn').forEach(button => {
+        button.addEventListener('click', function() {
+            const quoteId = this.dataset.quoteId;
+            const voteType = this.dataset.voteType;
+            const card = document.querySelector(`[data-quote-id="${quoteId}"]`);
+            
+            fetch(`/vote/${quoteId}/`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                    'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value
+                },
+                body: `vote_type=${voteType}`
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.error) {
+                    alert(data.error);
+                    return;
+                }
+                
+                // Update the cumulative rank display
+                const rankSpan = this.parentElement.querySelector('.cumulative-rank');
+                const rank = data.cumulative_rank;
+                rankSpan.textContent = rank >= 0 ? `+${rank}` : rank.toString();
+                
+                // Update button states
+                const upBtn = this.parentElement.querySelector('.upvote-btn');
+                const downBtn = this.parentElement.querySelector('.downvote-btn');
+                
+                upBtn.classList.remove('active');
+                downBtn.classList.remove('active');
+                
+                if (data.current_vote === 'up') {
+                    upBtn.classList.add('active');
+                    // Update vote indicator
+                    updateVoteIndicator(card, 'up');
+                } else if (data.current_vote === 'down') {
+                    downBtn.classList.add('active');
+                    // Update vote indicator
+                    updateVoteIndicator(card, 'down');
+                } else {
+                    // Vote was removed - mark for future removal
+                    card.classList.add('removing');
+                    updateVoteIndicator(card, 'removed');
+                }
+                
+                // Show message about filter behavior
+                const currentFilter = new URLSearchParams(window.location.search).get('filter') || 'all';
+                if (currentFilter !== 'all' && shouldHideQuote(data.current_vote, currentFilter)) {
+                    showFilterMessage();
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('An error occurred while voting. Please try again.');
+            });
+        });
+    });
+    
+    function updateVoteIndicator(card, voteType) {
+        const voteIndicator = card.querySelector('.text-primary.fw-bold');
+        if (voteType === 'up') {
+            voteIndicator.innerHTML = voteIndicator.innerHTML.replace(/👎|👍/, '👍');
+        } else if (voteType === 'down') {
+            voteIndicator.innerHTML = voteIndicator.innerHTML.replace(/👎|👍/, '👎');
+        } else if (voteType === 'removed') {
+            voteIndicator.innerHTML = voteIndicator.innerHTML.replace(/<span[^>]*>.*?<\/span>/, '<span class="text-muted">Vote removed</span>');
+        }
+    }
+    
+    function shouldHideQuote(currentVote, filter) {
+        if (filter === 'up' && currentVote !== 'up') return true;
+        if (filter === 'down' && currentVote !== 'down') return true;
+        return false;
+    }
+    
+    function showFilterMessage() {
+        if (!document.querySelector('.filter-message')) {
+            const message = document.createElement('div');
+            message.className = 'alert alert-info alert-dismissible fade show filter-message';
+            message.innerHTML = `
+                <small>Some quotes may no longer match your current filter. Refresh the page or change filters to update the view.</small>
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            `;
+            document.querySelector('.col-md-10').insertBefore(message, document.querySelector('.col-md-10').firstElementChild);
+        }
+    }
+});
+</script>
+
+<!-- CSRF Token for AJAX requests -->
+{% csrf_token %}
+{% endblock %}

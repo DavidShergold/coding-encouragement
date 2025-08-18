@@ -41,6 +41,28 @@ class Quote(models.Model):
         if self.report_count() >= 3:
             self.is_hidden = True
             self.save()
+    
+    def get_upvote_count(self):
+        """Get the number of upvotes for this quote"""
+        return self.votes.filter(vote_type='up').count()
+    
+    def get_downvote_count(self):
+        """Get the number of downvotes for this quote"""
+        return self.votes.filter(vote_type='down').count()
+    
+    def get_cumulative_rank(self):
+        """Calculate cumulative rank (upvotes - downvotes)"""
+        return self.get_upvote_count() - self.get_downvote_count()
+    
+    def get_user_vote(self, user):
+        """Get the current user's vote for this quote, if any"""
+        if not user.is_authenticated:
+            return None
+        try:
+            vote = self.votes.get(user=user)
+            return vote.vote_type
+        except:  # Vote.DoesNotExist will be available after migration
+            return None
 
 
 class Report(models.Model):
@@ -74,3 +96,24 @@ class Report(models.Model):
         self.resolved_by = resolved_by_user
         self.resolved_at = timezone.now()
         self.save()
+
+
+class Vote(models.Model):
+    VOTE_CHOICES = [
+        ('up', 'Upvote'),
+        ('down', 'Downvote'),
+    ]
+    
+    quote = models.ForeignKey(Quote, on_delete=models.CASCADE, related_name='votes')
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    vote_type = models.CharField(max_length=4, choices=VOTE_CHOICES)
+    created_at = models.DateTimeField(default=timezone.now)
+    updated_at = models.DateTimeField(auto_now=True)
+    
+    class Meta:
+        unique_together = ['quote', 'user']  # One vote per user per quote
+        ordering = ['-created_at']
+    
+    def __str__(self):
+        vote_emoji = "👍" if self.vote_type == 'up' else "👎"
+        return f'{vote_emoji} {self.user.username} → "{self.quote.text[:30]}..."'
